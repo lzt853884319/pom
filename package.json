@@ -1,0 +1,23 @@
+{
+  "name": "pom",
+  "version": "0.0.1",
+  "description": "a peoject just for practice",
+  "main": "index.js",
+  "repository": "https://github.com/lzt853884319/pom.git",
+  "author": "drdp <571099325@qq.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  },
+  "scripts": {
+    "build": "node ./webpack.config.js"
+  },
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.7.6"
+  }
+}
