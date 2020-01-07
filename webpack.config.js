@@ -1,14 +1,19 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // import webpack from 'webpack';
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const argv = require('yargs').argv;
 
 const webpack = require('webpack');
 
 const webpackConfig = {
     mode: 'development',
-    entry: './src/index.js',
+    // mode: 'production',
+    entry: {
+        main: './src/index.js'
+    },
     output: {
-        filename: 'main.js',
+        filename: '[name].[hash:4].js',
         path: path.resolve(__dirname, 'dist'),
     },
     module: {
@@ -23,9 +28,23 @@ const webpackConfig = {
         ],
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: "POM"
+        }),
     ]
 };
+
+// if() {
+//     webpackConfig.devServer = {
+//         contentBase: path.join(__dirname, 'dist'),
+//         compress: true,
+//         port: 9000,
+//     },
+// }
+argv.map(item => {
+    console.log(Object.keys(item).join("|"));
+})
 
 const compilerCbk = (err, stats) => { // Stats Object
     if (err || stats.hasErrors()) {
@@ -36,5 +55,12 @@ const compilerCbk = (err, stats) => { // Stats Object
       console.log("compiler success");
     }
   }
-
-webpack(webpackConfig, compilerCbk);
+module.exports = webpackConfig;
+// webpack(webpackConfig,compilerCbk)
+// .watch({
+//     // Example watchOptions
+//     aggregateTimeout: 300,
+//     poll: undefined
+//   }, (err, stats) => { // Stats Object
+//     // Print watch/build result here...
+//   });
