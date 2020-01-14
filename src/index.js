@@ -1,12 +1,22 @@
 import _ from 'lodash';
+import * as React from 'react';
+import ReactDom from 'react-dom';
+import NumberInput from './component/NumberInput'
 
 function component() {
-    const element = document.createElement('div');
 
     // Lodash, currently included via a script, is required for this line to work
-    element.innerHTML = _.join(['Hello', 'webpack', "pom", "drdp"], ' ');
+    element.id = "main";
 
     return element;
 }
 
-document.body.appendChild(component());
+class App extends React.Component {
+    render() {
+        return <div>react project: pom<NumberInput /></div>
+    }
+};
+const element = document.createElement('div');
+element.id = 'app';
+document.body.append(element);
+ReactDom.render(<App />, element);

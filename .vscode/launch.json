@@ -5,13 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "build",
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\webpack.config.js"
+            // "program": "${workspaceFolder}\\webpack.config.js",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "build"],
+        },
+        {
+            "name": "debgguer",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debug"],
+            "port": 9229
         }
+        
     ]
 }

@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// import webpack from 'webpack';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const argv = require('yargs').argv;
+const chalk = require('chalk');
+
+const isDev = argv.dev;
 
 const webpack = require('webpack');
 
@@ -19,12 +21,17 @@ const webpackConfig = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader',
                 }
-            }
+            },
+            {
+                test: /\.(ts|tsx)?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+              },
         ],
     },
     plugins: [
@@ -32,35 +39,26 @@ const webpackConfig = {
         new HtmlWebpackPlugin({
             title: "POM"
         }),
-    ]
+    ],
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ],
+      
+    },
 };
-
-// if() {
-//     webpackConfig.devServer = {
-//         contentBase: path.join(__dirname, 'dist'),
-//         compress: true,
-//         port: 9000,
-//     },
-// }
-argv.map(item => {
-    console.log(Object.keys(item).join("|"));
-})
 
 const compilerCbk = (err, stats) => { // Stats Object
     if (err || stats.hasErrors()) {
       // Handle errors here
-      console.log(stats)
+      console.log(stats.errors)
     }else {
     // Done processing
-      console.log("compiler success");
+      console.log(chalk.green("compiler success"));
     }
   }
-module.exports = webpackConfig;
-// webpack(webpackConfig,compilerCbk)
-// .watch({
-//     // Example watchOptions
-//     aggregateTimeout: 300,
-//     poll: undefined
-//   }, (err, stats) => { // Stats Object
-//     // Print watch/build result here...
-//   });
+
+const watchConfig = {
+    aggregateTimeout: 300,
+    poll: undefined
+}
+const compilerOpt = isDev ? [watchConfig, compilerCbk]: [compilerCbk];
+webpack(webpackConfig)[isDev ? "watch" : "run"](...compilerOpt);
