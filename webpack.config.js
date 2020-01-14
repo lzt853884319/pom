@@ -9,7 +9,7 @@ const isDev = argv.dev;
 const webpack = require('webpack');
 
 const webpackConfig = {
-    mode: 'development',
+    mode: isDev?'development':'production',
     // mode: 'production',
     entry: {
         main: './src/index.js'
@@ -28,7 +28,7 @@ const webpackConfig = {
                 }
             },
             {
-                test: /\.(ts|tsx)?$/,
+                test: /\.(ts|tsx)$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
               },
@@ -41,18 +41,31 @@ const webpackConfig = {
         }),
     ],
     resolve: {
-      extensions: [ '.tsx', '.ts', '.js' ],
+      extensions: [ '.tsx', '.ts', '.js', '.jsx' ],
       
     },
 };
 
+if(isDev) {
+    webpackConfig.devtool = "source-map";
+}
+
 const compilerCbk = (err, stats) => { // Stats Object
-    if (err || stats.hasErrors()) {
+    if (err) {
       // Handle errors here
       console.log(stats.errors)
-    }else {
-    // Done processing
-      console.log(chalk.green("compiler success"));
+    } else if(stats.hasErrors()) {
+        const info = stats.toJson();
+        if (stats.hasErrors()) {
+            info.errors.map(err => console.log(chalk.red(err)));
+        }
+    } else {
+        // Done processing
+        if(stats.hasWarnings()) {
+            const info = stats.toJson();
+            info.warnings.map(warn => console.log(chalk.yellow(warn)));
+        }
+        console.log(chalk.green("compiler success"));
     }
   }
 
@@ -61,4 +74,5 @@ const watchConfig = {
     poll: undefined
 }
 const compilerOpt = isDev ? [watchConfig, compilerCbk]: [compilerCbk];
+// module.exports = webpackConfig;
 webpack(webpackConfig)[isDev ? "watch" : "run"](...compilerOpt);

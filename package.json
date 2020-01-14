@@ -24,8 +24,8 @@
     "webpack-dev-server": "^3.10.1"
   },
   "scripts": {
-    "start": "node ./webpack.config.js --dev=1",
-    "build": "node ./webpack.config.js --dev=1",
+    "start": "node ./webpack.config.js --dev",
+    "build": "node ./webpack.config.js --dev",
     "server:dev": "webpack-dev-server --open",
     "debug": "node --inspect-brk webpack.config.js --dev=1 --dd"
   },
