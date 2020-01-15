@@ -37,7 +37,7 @@ const webpackConfig = {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: "POM"
+            title: 'POM'
         }),
     ],
     resolve: {
@@ -47,7 +47,7 @@ const webpackConfig = {
 };
 
 if(isDev) {
-    webpackConfig.devtool = "source-map";
+    webpackConfig.devtool = 'source-map';
 }
 
 const compilerCbk = (err, stats) => { // Stats Object
@@ -65,7 +65,7 @@ const compilerCbk = (err, stats) => { // Stats Object
             const info = stats.toJson();
             info.warnings.map(warn => console.log(chalk.yellow(warn)));
         }
-        console.log(chalk.green("compiler success"));
+        console.log(chalk.green('compiler success'));
     }
   }
 
@@ -75,4 +75,4 @@ const watchConfig = {
 }
 const compilerOpt = isDev ? [watchConfig, compilerCbk]: [compilerCbk];
 // module.exports = webpackConfig;
-webpack(webpackConfig)[isDev ? "watch" : "run"](...compilerOpt);
+webpack(webpackConfig)[isDev ? 'watch' : 'run'](...compilerOpt);

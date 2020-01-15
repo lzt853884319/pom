@@ -13,24 +13,35 @@
     "@babel/runtime": "^7.7.7",
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.17",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
     "babel-loader": "^8.0.6",
     "chalk": "^3.0.0",
     "clean-webpack-plugin": "^3.0.0",
+    "eslint-plugin-react": "^7.17.0",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.0.9",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "npm run commit-msg -E HUSKY_GIT_PARAMS"
+    }
+  },
   "scripts": {
     "start": "node ./webpack.config.js --dev",
     "build": "node ./webpack.config.js --dev",
     "server:dev": "webpack-dev-server --open",
-    "debug": "node --inspect-brk webpack.config.js --dev=1 --dd"
+    "commit-msg": "node ./config/commit-msg.js",
+    "debug": "node --inspect-brk webpack.config.js --dev"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.7.6",
+    "eslint": "^6.8.0",
     "lodash": "^4.17.15",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

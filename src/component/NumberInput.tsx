@@ -5,6 +5,6 @@ export default class NumberInput extends React.Component<{}, {}> {
         return <div>
             <span>数量</span>
             <input type="text" />
-        </div>
+        </div>;
     }
 }
